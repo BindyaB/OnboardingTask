@@ -1,17 +1,25 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Task1.Utilities;
 
 namespace Task1.Pages
 {
-    public class SkillFeature
+    public class SkillTab
     {
-        public void AddSkill(IWebDriver driver)
+        public void GoToSkillTab(IWebDriver driver)
         {
             //identify skill tab and click
-            WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[1]/a[2]", 8);
+            WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[1]/a[2]", 20);
             IWebElement skillsTab = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[1]/a[2]"));
             skillsTab.Click();
+
+
+        }
+
+
+        public void AddSkill(IWebDriver driver, string skill, string level)
+        {
 
             //identify add new button and click
             WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div", 5);
@@ -22,53 +30,36 @@ namespace Task1.Pages
             WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[1]/input", 5);
             IWebElement addNewSkillsTextBox = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[1]/input"));
             addNewSkillsTextBox.Click();
-            addNewSkillsTextBox.SendKeys("Painting");
+            addNewSkillsTextBox.SendKeys(skill);
 
             //identify choose level dropdown menu and enter a level
             WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[2]/select", 5);
             IWebElement newSkillLevelDropdownMenu = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[2]/select"));
             newSkillLevelDropdownMenu.Click();
-            IWebElement chooseNewLevelDropdownMenu = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[2]/select"));
-            SelectElement newSkillLevel = new SelectElement(chooseNewLevelDropdownMenu);
-            newSkillLevel.SelectByText("Intermediate");
+            SelectElement newSkillLevel = new SelectElement(newSkillLevelDropdownMenu);
+            newSkillLevel.SelectByText(level);
 
             //identify add button and click
             WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[1]", 5);
             IWebElement addNewSkillButton = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[1]"));
             addNewSkillButton.Click();
 
+        }   
+        
+        public string GetaddedSkill( IWebDriver driver, string skill)
+        { 
             //check if the skill has been added
             Thread.Sleep(5000);
             IWebElement addedNewSkill = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td[1]"));
-            Console.WriteLine(addedNewSkill.Text);
-            if(addedNewSkill.Text== "Painting")
-            {
-                Console.WriteLine("Skill added successfully");
-            }
-            else
-            {
-                Console.WriteLine("Skill not added");
-            }
-
-
+            return addedNewSkill.Text;
+        
         }
 
-        public void CancelSkill(IWebDriver driver)
+        public void EditSkill(IWebDriver driver, string skill, string level)
         {
-            //identify cancel button and click for a new skill
-            WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div", 9);
-            IWebElement cancelAddNewButton = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div"));
-            cancelAddNewButton.Click();
-            WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[2]", 5);
-            IWebElement cancelSkillButton = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[2]"));
-            cancelSkillButton.Click();
 
-        }
-
-        public void EditSkill(IWebDriver driver)
-        {
             // identify and write icon and click to edit a skill
-            WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td[3]/span[1]/i", 5);
+            WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td[3]/span[1]/i", 8);
             IWebElement editSkillWriteIcon = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td[3]/span[1]/i"));
             editSkillWriteIcon.Click();
 
@@ -77,34 +68,31 @@ namespace Task1.Pages
             IWebElement editAddSkillTextbox = driver.FindElement(By.XPath("/html/body/div[1]/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td/div/div[1]/input"));
             editAddSkillTextbox.Click();
             editAddSkillTextbox.Clear();
-            editAddSkillTextbox.SendKeys("Tango");
+            editAddSkillTextbox.SendKeys(skill);
 
             //identify skill level to edit skill
 
             WaitHelpers.WaitToBeClickable(driver, "XPath", "//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td/div/div[2]/select", 5);
             IWebElement editSkillLeveldropdown = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td/div/div[2]/select"));
             editSkillLeveldropdown.Click();
-            IWebElement editSkillLevel = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td/div/div[2]/select"));
-            SelectElement editSkill = new SelectElement(editSkillLevel);
-            editSkill.SelectByText("Expert");
+            SelectElement editSkill = new SelectElement(editSkillLeveldropdown);
+            editSkill.SelectByText(level);
 
             //identify update button and click to save the updated skill
             IWebElement skillUpdateButton = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td/div/span/input[1]"));
             skillUpdateButton.Click();
 
+        }
+
+        public string GetEditedSkill(IWebDriver driver, string skill)
+        { 
             //check if the edit was successful
             Thread.Sleep(8000);
             IWebElement editedSkill = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td[1]"));
-            Console.WriteLine(editedSkill.Text);
-            if(editedSkill.Text == "Tango")
-            {
-                Console.WriteLine("Skill edited");
-            }
-            else
-            {
-                Console.WriteLine("SkillFeature not edited");
-            }
-        }
+            return editedSkill.Text;
+
+            
+       }
 
         public void DeleteSkill(IWebDriver driver)
         {
@@ -113,17 +101,17 @@ namespace Task1.Pages
             IWebElement deleteSkillButton = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td[3]/span[2]/i"));
             deleteSkillButton.Click();
 
-            //check if the skill has been deleted
+        }
+
+        public string GetDeletedSkill(IWebDriver driver, string skill)
+        { 
+        //check if the skill has been deleted
             Thread.Sleep(8000);
             IWebElement deletedSkill = driver.FindElement(By.XPath("//div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody[last()]/tr/td[1]"));
-            if (deletedSkill.Text == "Tango")
-            {
-                Console.WriteLine("Skill not deleted");
-            }
-            else
-            {
-                Console.WriteLine("Skill deleted");
-            }
+            return deletedSkill.Text;
+                     
+           
+            
         }
     }
 }

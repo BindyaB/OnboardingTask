@@ -18,18 +18,16 @@ descriptionFeatureobj.AddDescription(driver);
 
 //Language feature object intialisation and definition
 
-LanguageFeature languageFeatureObj = new LanguageFeature();
-languageFeatureObj.AddLanguage(driver);
-languageFeatureObj.CancelAddLanguage(driver);
-languageFeatureObj.EditLanguage(driver);
+LanguageTab languageFeatureObj = new LanguageTab();
+//languageFeatureObj.AddLanguage(driver, language, level);
+//languageFeatureObj.EditLanguage(driver);
 languageFeatureObj.DeleteLanguage(driver);
 
 //Skill feature object intialisation and definition
 
-SkillFeature skillFeatureObj = new SkillFeature();
-skillFeatureObj.AddSkill(driver);
-skillFeatureObj.CancelSkill(driver);
-skillFeatureObj.EditSkill(driver);
+SkillTab skillFeatureObj = new SkillTab();
+//skillFeatureObj.AddSkill(driver);
+//skillFeatureObj.EditSkill(driver);
 skillFeatureObj.DeleteSkill(driver);
 
 

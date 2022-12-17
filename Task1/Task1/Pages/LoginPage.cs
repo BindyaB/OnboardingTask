@@ -16,7 +16,7 @@ namespace Task1.Pages
             //launch localhost 5000
 
             driver.Navigate().GoToUrl("http://localhost:5000");
-            WaitHelpers.WaitToBeClickable(driver, "XPath", "//*[@id='home']/div/div/div[1]/div/a", 3);
+            WaitHelpers.WaitToBeClickable(driver, "XPath", "//*[@id='home']/div/div/div[1]/div/a", 5);
             
 
             //identify and click on the signin button
